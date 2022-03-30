@@ -2,5 +2,5 @@
 
 # Адреса
 + Back-end
-  + **[API](api.news-explorer.nomoredomains.work)**
+  + **[API](https://api.news-explorer.nomoredomains.work/)**
   + 51.250.105.140
