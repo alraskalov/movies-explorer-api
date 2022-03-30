@@ -4,13 +4,15 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
+const { NOT_FOUND_ID, USER_IS_NOT_UNIQUE } = require('../utils/enumError');
+const { JWT_DEV } = require('../utils/configure');
 
 module.exports.getUserMe = (req, res, next) => {
   User.findById({ _id: req.user._id })
     .then((user) => {
       const { email, name } = user;
       if (!user) {
-        throw new NotFoundError('Нет данных по переданному id');
+        throw new NotFoundError(NOT_FOUND_ID);
       } else {
         res.status(200).send({ email, name });
       }
@@ -30,7 +32,7 @@ module.exports.createUser = async (req, res, next) => {
     .catch((err) => {
       if (err.code === 11000) {
         next(
-          new ConflictError('Пользователь с таким email уже зарегестрирован'),
+          new ConflictError(USER_IS_NOT_UNIQUE),
         );
       }
       next(err);
@@ -50,7 +52,7 @@ module.exports.updateUserProfile = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        throw new NotFoundError({ messgae: 'Нет данных по переданному id' });
+        throw new NotFoundError(NOT_FOUND_ID);
       } else {
         res.status(200).send({ name: user.name, email: user.email });
       }
@@ -58,7 +60,7 @@ module.exports.updateUserProfile = (req, res, next) => {
     .catch((err) => {
       if (err.code === 11000) {
         next(
-          new ConflictError('Пользователь с таким email уже зарегестрирован'),
+          new ConflictError(USER_IS_NOT_UNIQUE),
         );
       }
       next(err);
@@ -72,7 +74,7 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret',
+        NODE_ENV === 'production' ? JWT_SECRET : JWT_DEV,
         {
           expiresIn: '7d',
         },

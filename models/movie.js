@@ -1,4 +1,11 @@
 const mongoose = require('mongoose');
+const {
+  INVALID_IMAGE_URL,
+  INVALID_TRAILER_URL,
+  INVALID_THUMBNAIL_URL,
+} = require('../utils/enumError');
+
+const validator = /(:?(?:https?:\/\/)?(?:www\.)?)?[-a-z0-9]+\.\w/g;
 
 const movieSchema = new mongoose.Schema(
   {
@@ -26,24 +33,24 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
       validate: {
-        validator: (v) => /(:?(?:https?:\/\/)?(?:www\.)?)?[-a-z0-9]+\.\w/g.test(v),
-        message: 'Некорректный url изображения',
+        validator: (v) => validator.test(v),
+        message: INVALID_IMAGE_URL,
       },
     },
     trailerLink: {
       type: String,
       required: true,
       validate: {
-        validator: (v) => /(:?(?:https?:\/\/)?(?:www\.)?)?[-a-z0-9]+\.\w/g.test(v),
-        message: 'Некорректный url трейлера',
+        validator: (v) => validator.test(v),
+        message: INVALID_TRAILER_URL,
       },
     },
     thumbnail: {
       type: String,
       required: true,
       validate: {
-        validator: (v) => /(:?(?:https?:\/\/)?(?:www\.)?)?[-a-z0-9]+\.\w/g.test(v),
-        message: 'Некорректный url миниатюры',
+        validator: (v) => validator.test(v),
+        message: INVALID_THUMBNAIL_URL,
       },
     },
     owner: {

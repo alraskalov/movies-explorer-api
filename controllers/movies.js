@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const ForbiddenError = require('../errors/ForbiddenError');
 const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/NotFoundError');
+const { NOT_FOUND_ID, DELETE_OTHER_MOVIE, INVALID_URL } = require('../utils/enumError');
 
 module.exports.getMovie = (req, res, next) => {
   const owner = req.user._id;
@@ -16,9 +17,9 @@ module.exports.deleteMovie = (req, res, next) => {
     .select('+owner')
     .then((movieObject) => {
       if (!movieObject) {
-        throw new NotFoundError('Нет данных по переданному id');
+        throw new NotFoundError(NOT_FOUND_ID);
       } else if (req.user._id !== movieObject.owner.toString()) {
-        throw new ForbiddenError('Нельзя удалить чужую карточку');
+        throw new ForbiddenError(DELETE_OTHER_MOVIE);
       }
       Movie.findByIdAndRemove(movieId)
         .then((movie) => {
@@ -75,7 +76,7 @@ module.exports.createMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ValidationError('Некорректный URL'));
+        next(new ValidationError(INVALID_URL));
       }
       next(err);
     });
