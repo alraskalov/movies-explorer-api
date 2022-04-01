@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 const { NODE_ENV, JWT_SECRET } = process.env;
 const jwt = require('jsonwebtoken');
 const AuthError = require('../errors/AuthError');

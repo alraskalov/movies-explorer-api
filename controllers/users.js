@@ -31,11 +31,10 @@ module.exports.createUser = async (req, res, next) => {
     .then((user) => res.status(200).send({ _id: user.id, email: user.email }))
     .catch((err) => {
       if (err.code === 11000) {
-        next(
-          new ConflictError(USER_IS_NOT_UNIQUE),
-        );
+        next(new ConflictError(USER_IS_NOT_UNIQUE));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -59,11 +58,10 @@ module.exports.updateUserProfile = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(
-          new ConflictError(USER_IS_NOT_UNIQUE),
-        );
+        next(new ConflictError(USER_IS_NOT_UNIQUE));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 

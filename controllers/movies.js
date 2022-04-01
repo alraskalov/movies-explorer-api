@@ -2,7 +2,11 @@ const Movie = require('../models/movie');
 const ForbiddenError = require('../errors/ForbiddenError');
 const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/NotFoundError');
-const { NOT_FOUND_ID, DELETE_OTHER_MOVIE, INVALID_URL } = require('../utils/enumError');
+const {
+  NOT_FOUND_ID,
+  DELETE_OTHER_MOVIE,
+  INVALID_URL,
+} = require('../utils/enumError');
 
 module.exports.getMovie = (req, res, next) => {
   const owner = req.user._id;
@@ -77,7 +81,8 @@ module.exports.createMovie = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError(INVALID_URL));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };

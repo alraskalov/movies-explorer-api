@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
+const isURL = require('validator/lib/isURL');
 const {
   INVALID_IMAGE_URL,
   INVALID_TRAILER_URL,
   INVALID_THUMBNAIL_URL,
 } = require('../utils/enumError');
-
-const validator = /(:?(?:https?:\/\/)?(?:www\.)?)?[-a-z0-9]+\.\w/g;
 
 const movieSchema = new mongoose.Schema(
   {
@@ -33,7 +32,7 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
       validate: {
-        validator: (v) => validator.test(v),
+        validator: (v) => isURL(v),
         message: INVALID_IMAGE_URL,
       },
     },
@@ -41,7 +40,7 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
       validate: {
-        validator: (v) => validator.test(v),
+        validator: (v) => isURL(v),
         message: INVALID_TRAILER_URL,
       },
     },
@@ -49,7 +48,7 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
       validate: {
-        validator: (v) => validator.test(v),
+        validator: (v) => isURL(v),
         message: INVALID_THUMBNAIL_URL,
       },
     },

@@ -1,6 +1,7 @@
 {
   "name": "movies-explorer-api",
   "version": "1.0.0",
+  "description": "Movies Explorer API",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
