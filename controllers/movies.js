@@ -63,20 +63,8 @@ module.exports.createMovie = (req, res, next) => {
     movieId,
     owner,
   })
-    .then(() => {
-      res.status(200).send({
-        country,
-        director,
-        duration,
-        year,
-        description,
-        image,
-        trailerLink,
-        nameRU,
-        nameEN,
-        thumbnail,
-        movieId,
-      });
+    .then((movie) => {
+      res.status(200).send(movie);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

@@ -10,11 +10,10 @@ const { JWT_DEV } = require('../utils/configure');
 module.exports.getUserMe = (req, res, next) => {
   User.findById({ _id: req.user._id })
     .then((user) => {
-      const { email, name } = user;
       if (!user) {
         throw new NotFoundError(NOT_FOUND_ID);
       } else {
-        res.status(200).send({ email, name });
+        res.status(200).send({ user });
       }
     })
     .catch(next);
