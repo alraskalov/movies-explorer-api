@@ -29,9 +29,15 @@ router.post(
       duration: Joi.number().required(),
       year: Joi.string().required(),
       description: Joi.string().required(),
-      image: Joi.string().required().custom((value, helpers) => validate(value, 'image', helpers)),
-      trailerLink: Joi.string().required().custom((value, helpers) => validate(value, 'trailerLink', helpers)),
-      thumbnail: Joi.string().required().custom((value, helpers) => validate(value, 'thumbnail', helpers)),
+      image: Joi.string()
+        .required()
+        .custom((value, helpers) => validate(value, 'image', helpers)),
+      trailerLink: Joi.string()
+        .required()
+        .custom((value, helpers) => validate(value, 'trailerLink', helpers)),
+      thumbnail: Joi.string()
+        .required()
+        .custom((value, helpers) => validate(value, 'thumbnail', helpers)),
       movieId: Joi.number().required(),
       nameRU: Joi.string().required(),
       nameEN: Joi.string().required(),
